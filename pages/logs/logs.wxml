@@ -1,0 +1,66 @@
+ <view> 
+  <!--  头部切换 -->
+  <view class='toggle'>
+      <text>用户签到记录</text>
+
+      <view class='btn-group'>
+          <button class='day-table' style='background:{{recordBg}};' bindtap='recordSelect'>本日</button>
+          <button class='week-table'style='background:{{recordBg2}}'bindtap='recordSelect2'>本周</button>
+      </view>
+      
+  </view>
+  <!-- 本日table -->
+  <view wx:if='{{dayTable}}'  class='first '>
+
+      <view class='th'>
+        <text wx:for="{{th}}"  class='th-{{index}}'>{{item}}</text>
+      </view>
+
+      <view>
+        <view  wx:for="{{tabledata2}}" class='th-body'>
+            <view class='tbody tbody-0'>{{item.title}}</view>
+            <view class='tbody tbody-1' data-index='{{index}}drop' bindtap="showAllTime">
+                 {{item.arrive}}
+                  <!--<view class="section">
+
+                    <picker value="{{index2}}" range="{{item.timer}}">
+                      <view class="picker">
+                      {{item.timer[index2]}}
+                      </view>
+                    </picker>
+                  </view>
+                  -->
+            </view>
+            <view class='tbody tbody-3'>{{item.leave}}</view>
+            <view class='tbody tbody-2'>{{item.latime}}</view>
+        </view>
+      </view>
+     
+  </view>
+   <!--  本周table -->
+  <view wx:if='{{weekTable}}' class='first '>
+
+      <view class='th'>
+        <text wx:for="{{th2}}"  class='th-td  td-{{index}}'>{{item}}</text>
+      </view>
+
+      <view>
+        <view  wx:for="{{tabledata}}" class='th-body'>
+            <view class='tbody tbody-0'>{{item.name}}</view>
+            <view class='tbody week-item' data-index='{{index}}drop' bindtap="showAllTime">
+                 
+                  <view class="section">
+
+                    <picker value="{{index2}}" range="{{item.timer}}">
+                      <view class="picker" mode="multiSelector">
+                           {{item.timer[index2]}}
+                      </view>
+                    </picker>
+                  </view>
+            </view>
+            <view class='tbody tbody-2'>{{item.alltime}}</view>
+        </view>
+      </view>
+     
+  </view>
+</view>

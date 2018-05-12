@@ -1,0 +1,78 @@
+.bg{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+.user-name{
+  z-index: 3;
+  position: relative;
+  text-align: center;
+  color: gray;
+}
+
+
+ .arrbtn{
+   width: 150px;
+   border-radius: 10px 10px;
+ }
+.btnbg{
+  display: inline-block;
+  width: 100rpx;
+}
+.btn{
+  text-align: center;
+  z-index: 3;
+
+  margin-top: 80px;
+  position: relative;
+}
+.admjust{
+width: 100%;
+height: 30px;
+position: fixed;
+bottom: 28px;
+color: #317ddf;
+font-size: 28rpx;
+text-align: center;
+z-index: 3;
+}
+
+.content{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+.userpic{
+  width: 100%;
+  height: 200rpx;
+  text-align: center;
+  margin-top:100px;
+  position: relative;
+  z-index: 2;
+ margin-bottom:40rpx;
+}
+.userinfo{
+width: 200rpx;
+height: 200rpx;
+border-radius: 50% 50%
+}
+.wifi-status text{
+ display: inline-block;
+ position: relative;
+ z-index: 3;
+
+}
+.wi-name{
+  color: #317ddf;
+}
+.wifi-status{
+  font-size: 12px;
+  text-align: center;
+  margin-top: 20px;
+  color: gray;
+}
+.wi-berak{
+  color: red;
+}

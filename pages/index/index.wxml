@@ -1,0 +1,31 @@
+
+<view class='content'>
+ <image class='bg' src='{{bg}}'></image>
+ <!-- 用户信息 -->
+  <view class='userpic'>
+   <image class="userinfo" src="{{userInfo.avatarUrl}}" ></image>
+  </view>
+
+  <view class='user-name'>
+    {{userInfo.nickName}}
+  </view>
+   <!-- 操作按钮 -->
+  <view class='btn'>
+     <button style=' color: {{color}};  border: solid 1px #009944; background:{{background}};' class='arrbtn'  data-hi='111' bindtap='arriveclick'>立即签到</button>
+     <text class='btnbg'></text>
+     <button data-userid='{{userId}}' style=' color: {{color2}};  border: solid 1px #a61849; background:{{background2}};'  class='arrbtn'  bindtap='leaveclick'>签离</button>
+  </view>
+   <!-- wifi状态显示 -->
+  <view wx:if="{{network=='易班学生工作站' }}" class='wifi-status' >
+      <text>{{wiText}}:</text>
+      <text class='wi-name'>{{network}}</text>
+  </view>
+  <view wx:else  class='wifi-status'>
+       <text class='wi-berak'>暂未连接到工作区WiFi:请检查网络设置</text>
+  </view>
+   <!-- 管理员 -->
+  <view class='admjust' style="display:{{mangerShow}}">
+     <navigator class='admins' url='../logs/logs?user={{userInfo.nickName}}'>-->管理员入口</navigator>
+  </view>
+ 
+</view>

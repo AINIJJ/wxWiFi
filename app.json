@@ -1,0 +1,13 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+ 
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "pink",
+    "navigationBarTitleText": "易班签到系统",
+    "navigationBarTextStyle":"black"
+  }
+}
