@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<meta id="viewport" name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1; user-scalable=no;">
+	
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		ul{
+			
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			border: 1px solid #f5f5f5;
+			border-right: none;
+			border-bottom: none;
+			
+			margin: 100px auto;
+		}
+		ul li{
+			float: left;
+			border: solid 1px #f5f5f5;
+			border-left: none;
+			border-top: none;
+			display: inline-block;
+			background: black;
+		}
+		.start{
+			background: skyblue;
+		}
+		.end{
+			background: green;
+		}
+		.usual{
+			background: pink;
+		}
+	</style>
+	<body>
+		<ul id="map-ul"></ul>
+	    <input id="btn" type="button" value="开始" />
+	</body>
+<script>
+	var oUl = document.getElementById("map-ul");
+	var startBtn = document.getElementById("btn");
+	var Li = oUl.getElementsByTagName("li");
+	var beginLi = document.getElementsByClassName("start");
+	var endLi = document.getElementsByClassName("end");
+	var map = [
+	1,1,1,1,1,1,1,1,1,1,
+	1,1,0,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,1,1,
+	1,1,1,1,1,2,2,2,1,1,
+	1,1,1,1,1,2,1,1,1,1,
+	1,1,1,1,1,2,1,1,1,1,
+	1,1,1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,1,3,
+	1,1,1,1,1,1,1,1,1,1
+	];
+	var openArr = [];//可能要走的路线
+	var closeArr = [];//已经关闭的路线
+	var cols = Math.sqrt(map.length)
+	var sizeBox = 20;
+	//初始化
+	init()
+	function init(){
+		creatMap();//初始化地图
+		startBtn.onclick = function(){
+			openFn();
+		}
+	}
+	function creatMap(){
+		
+		oUl.style.width = cols * (sizeBox + 1) + 1 + "px";
+		oUl.style.height = cols * (sizeBox + 1) + 1 + "px";
+		for (var i=0;i<map.length;i++) {
+			var oLi = document.createElement("li");
+			oLi.style.width = sizeBox + "px";
+			oLi.style.height = sizeBox + "px";
+			oUl.appendChild(oLi)
+			if (map[i] == 2) {
+				oLi.className = "usual"
+				closeArr.push(oLi)//障碍物
+			} else if(map[i] == 0){
+				oLi.className = "start"
+				openArr.push(oLi)//起始点 
+			}else if(map[i] == 3){
+				oLi.className = "end"
+			}
+		}
+	}
+	function f(nodeLi){//nodeLi每个li节点
+		return g(nodeLi) + h(nodeLi);//g为节点到初始位置的距离，h为节点到结束位置的距离
+	}
+	function g(nodeLi){
+		//勾股定理算出距离
+		var x = beginLi[0].offsetLeft - nodeLi.offsetLeft;
+		var y = beginLi[0].offsetTop - nodeLi.offsetTop;
+		return Math.sqrt(x*x+y*y);
+	}
+	function h(nodeLi){
+		var x = endLi[0].offsetLeft - nodeLi.offsetLeft;
+		var y = endLi[0].offsetTop - nodeLi.offsetTop;
+		return Math.sqrt(x*x+y*y);
+	}
+	function openFn(){
+		//以起始位置为可能要走的第一个Li
+		var nowLi = openArr.shift();
+		if(nowLi == endLi[0]){
+			showLine();
+			
+			return;
+		}
+		closeFn(nowLi);//处理后将第一个删除并且添加到关闭的路线
+		findLi(nowLi);//寻找第一个Li周围的可能要走的Li
+		openArr.sort(function(li1,li2){
+			return li1.num - li2.num;
+		})
+		
+		openFn();
+	}
+	function findLi(nowLi){
+		var result = [];//所有没走过的路线。去除closeArr里存在的路线
+		for (var i=0;i<Li.length;i++) {
+			if( filter(Li[i])){
+				result.push(Li[i])
+			}
+		}
+		function filter(Li){//如果closeArr里没有就添加到队列
+			for (var i=0;i<closeArr.length;i++) {
+				if(closeArr[i] == Li){
+					return false;
+				}
+			}
+			for (var i=0;i<openArr.length;i++) {
+				if(openArr[i] == Li){
+					return false;
+				}
+			}
+			return true;
+		}
+		//评估第一个Li周围的可能要走的f
+		for(var i=0;i<result.length;i++){
+			if(Math.abs(nowLi.offsetLeft - result[i].offsetLeft)<=21&&Math.abs(nowLi.offsetTop - result[i].offsetTop)<=21){
+				result[i].num = f(result[i]);
+				result[i].parent = nowLi
+				openArr.push(result[i])
+			}
+		}
+	}
+	function showLine(){
+		var result = [];
+		var lastLi = closeArr.pop();
+		var iNow = 0;
+		findParent(lastLi);
+		function findParent(li){
+			result.unshift(li);
+			if( li.parent == beginLi[0] ){
+				return;
+			}
+			findParent(li.parent);
+			console.log(li.parent)
+		}
+		for (var i=0;i<result.length;i++) {
+			result[i].style.backgroundColor = "plum";
+		}
+	}
+	function closeFn(nowLi){
+		closeArr.push(nowLi);
+	}
+</script>
+</html>
+ 
